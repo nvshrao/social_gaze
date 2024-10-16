@@ -12,8 +12,6 @@ Please use the data with care. We have retained gender and age information in th
 
 ## Usage
 
-## Usage
-
 For Vanilla prompting:  
 ```bash
 python vllm_aita.py phi-3-med
