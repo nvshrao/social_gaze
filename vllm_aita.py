@@ -120,7 +120,7 @@ Question is {question}"""
 # Format questions according to the template
 def load_aita():
     formatted_questions = []
-    df =pd.read_csv("./rakesh_test_set/evaluate_rel_with_score.csv")
+    df =pd.read_csv("./data/evaluate_rel_with_score.csv")
     df=df.filter(['flair', 'text', 'label','comment', 'Upvote', 'Upvote_label', 'base_model_generations','rl_model_generations'])
     for idx, row in df.iterrows():
         #print(prompt_template + "\n\n" + df["text"].iloc[0])
@@ -167,7 +167,7 @@ def batch(iterable, n=1):
 N=5
 for iteration in np.arange(N):
   print(iteration)
-  file_path = f"./new_data_vllm/baseline/{model_short_name}_{iteration}.pickle"
+  file_path = f"./results/baseline/{model_short_name}_{iteration}.pickle"
   if not os.path.exists(file_path):
     all_outputs = []
     for X in tqdm(batch(aita_dataset, 1600)):

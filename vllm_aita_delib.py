@@ -148,7 +148,7 @@ steps =     [
         "Given these actions and contexts, make a decision. State explicitly, whether the narrator alone is at fault (YTA), the narrator is not at fault (NTA). Start with your decision, followed by a concise supporting rationale."]
 
 
-df =pd.read_csv("./rakesh_test_set/evaluate_rel_with_score.csv")
+df =pd.read_csv("./data/evaluate_rel_with_score.csv")
 df=df.filter(['flair', 'text', 'label','comment', 'Upvote', 'Upvote_label', 'base_model_generations','rl_model_generations'])
 posts = df["text"]
 
@@ -173,7 +173,7 @@ for iteration in [0,1,2,3,4]:
   print("iter",iteration)
   for step in np.arange(len(steps)):# 0,1,2,3
       print("step",step)
-      folder_path = os.path.join("new_data_vllm","delib",model_short_name)
+      folder_path = os.path.join("results","delib",model_short_name)
       if not os.path.exists(folder_path):
           os.makedirs(folder_path)
       cache_path = os.path.join(folder_path,f"{model_short_name}_step_{step}_cache_{iteration}.pickle")
