@@ -14,3 +14,4 @@ For SocialGaze prompting:
 ```bash
 python vllm_aita_delib.py phi-3-med
 ```
+The generations will be saved into the `./results/` directory.
