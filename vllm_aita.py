@@ -174,10 +174,7 @@ for iteration in np.arange(N):
         qs = [x[0] for x in X]
         outputs = llm.generate(qs,SamplingParams(top_k=10,max_tokens=300))
         all_outputs.append([o.outputs[0].text for o in outputs])
-    # llama 13 b took 15 minutes for 1300 examples
     all_outputs = list(itertools.chain.from_iterable(all_outputs))
-    #all_outputs = [i.split("User: ")[0].strip() for i in all_outputs]
-    #all_outputs = [i.split("Assistant: ")[0].strip() for i in all_outputs]
     pred = [extract_label(i) for i in all_outputs]
     labels = ["NTA" if i[1]==0 else "YTA" for i in aita_dataset ]
     print(Counter(pred))
