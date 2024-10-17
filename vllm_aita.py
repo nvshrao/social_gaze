@@ -91,23 +91,8 @@ else:
     
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-def convert_message_to_prompt(message,tokenize=False):
-    if tokenize==True:
-        return tokenizer.apply_chat_template(message, tokenize=False)
-    else:
-        formatted_conversation = ''
-        # Loop through each message in the list
-        for msg in message:
-            # Check if the role is 'user' or 'assistant' and add their content to the string
-            if msg['role'] in ['user', 'assistant']:
-                formatted_conversation += f"{msg['role'].capitalize()}: {msg['content']}\n\n"
-
-        # Determine the role of the last entry and append an empty line for the opposite role with a space after the colon
-        if message[-1]['role'] == 'user':
-            formatted_conversation += 'Assistant: '
-        elif message[-1]['role'] == 'assistant':
-            formatted_conversation += 'User: '
-        return formatted_conversation
+def convert_message_to_prompt(message):
+    return tokenizer.apply_chat_template(message, tokenize=False)
     
     
 from datasets import load_dataset
@@ -123,10 +108,7 @@ def load_aita():
     df =pd.read_csv("./data/evaluate_rel_with_score.csv")
     df=df.filter(['flair', 'text', 'label','comment', 'Upvote', 'Upvote_label', 'base_model_generations','rl_model_generations'])
     for idx, row in df.iterrows():
-        #print(prompt_template + "\n\n" + df["text"].iloc[0])
         prompt_template = "Given this narrative, make a decision. State explicitly, whether the narrator alone is at fault (YTA), the narrator is not at fault (NTA). Start with your decision, followed by a concise supporting rationale."
-        #print(prompt_template + "\n\n" + df["text"].iloc[0])
-      #print(prompt_template + "\n\n" + df["text"].iloc[0])
         post = row["text"]
         if model_short_name == "mixtral" or "gemma" in model_short_name or "mistral" in model_short_name: # no system prompt in mixtral
             message = [
@@ -146,7 +128,7 @@ def load_aita():
                 "content":  post.strip() + "\n\n" +prompt_template
             }
             ]
-        message = convert_message_to_prompt(message,tokenize=True)
+        message = convert_message_to_prompt(message)
         formatted_questions.append([message,row["label"]])
     return formatted_questions
 
@@ -156,8 +138,6 @@ def extract_label(input_txt):
     match = re.search(label_pattern, input_txt)
     label = match.group(0) if match else 'NA'
     return label
-# Example: print the first formatted question and its answer
-# print(aita_dataset[1])
 
 def batch(iterable, n=1):
     l = len(iterable)
