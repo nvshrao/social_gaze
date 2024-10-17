@@ -83,23 +83,8 @@ else:
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 
-def convert_message_to_prompt(message,tokenize=False):
-    if tokenize==True:
-        return tokenizer.apply_chat_template(message, tokenize=False)
-    else:
-        formatted_conversation = ''
-        # Loop through each message in the list
-        for msg in message:
-            # Check if the role is 'user' or 'assistant' and add their content to the string
-            if msg['role'] in ['user', 'assistant']:
-                formatted_conversation += f"{msg['role'].capitalize()}: {msg['content']}\n\n"
-
-        # Determine the role of the last entry and append an empty line for the opposite role with a space after the colon
-        if message[-1]['role'] == 'user':
-            formatted_conversation += 'Assistant: '
-        elif message[-1]['role'] == 'assistant':
-            formatted_conversation += 'User: '
-        return formatted_conversation
+def convert_message_to_prompt(message):
+    return tokenizer.apply_chat_template(message, tokenize=False)
 
 def load_aita_delib(posts,previous_answers,steps):
     formatted_questions = []
@@ -134,7 +119,7 @@ def load_aita_delib(posts,previous_answers,steps):
             "content":  steps[i+1]
                         }]
             )
-        message = convert_message_to_prompt(message,tokenize=True)
+        message = convert_message_to_prompt(message)
         formatted_questions.append(message)
     return formatted_questions
 
