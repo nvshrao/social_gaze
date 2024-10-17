@@ -23,6 +23,8 @@ from sklearn.metrics import precision_recall_fscore_support,accuracy_score
 import pickle
 import argparse
 from collections import Counter
+from datasets import load_dataset
+import pandas as pd
 
 parser = argparse.ArgumentParser(description='Process model name.')
 parser.add_argument('model_short_name', type=str, help='Short name of the model')
@@ -98,11 +100,6 @@ def convert_message_to_prompt(message,tokenize=False):
         elif message[-1]['role'] == 'assistant':
             formatted_conversation += 'User: '
         return formatted_conversation
-    
-    
-from datasets import load_dataset
-import pandas as pd
-
 
 def load_aita_delib(posts,previous_answers,steps):
     formatted_questions = []
@@ -152,23 +149,18 @@ df =pd.read_csv("./data/evaluate_rel_with_score.csv")
 df=df.filter(['flair', 'text', 'label','comment', 'Upvote', 'Upvote_label', 'base_model_generations','rl_model_generations'])
 posts = df["text"]
 
-# Example: print the first formatted question and its answer
-# print(aita_dataset[1])
-
 def batch(iterable, n=1):
     l = len(iterable)
     for ndx in range(0, l, n):
         yield iterable[ndx:min(ndx + n, l)]
 
-#posts = posts[:3]
 def extract_label(input_txt):
     label_pattern = r'\b(?:YTA|NTA)\b'
     match = re.search(label_pattern, input_txt)
     label = match.group(0) if match else 'NA'
     return label
-  
 
-for iteration in [0,1,2,3,4]:
+for iteration in np.arange(5):
   previous_answers =[[] for _ in range(len(posts))]
   print("iter",iteration)
   for step in np.arange(len(steps)):# 0,1,2,3
@@ -185,22 +177,9 @@ for iteration in [0,1,2,3,4]:
               outputs = llm.generate(X,SamplingParams(top_k=10,max_tokens=400))
               all_outputs_delib.append([o.outputs[0].text.split("<|eot_id|>")[0] for o in outputs])
           all_outputs_delib = list(itertools.chain.from_iterable(all_outputs_delib))#remove batches
-          #all_outputs_delib = [i.split("User: ")[0].strip() for i in all_outputs_delib]# remove hallucinated conversations
-          #all_outputs_delib = [i.split("Assistant: ")[0].strip() for i in all_outputs_delib]# remove hallucinated conversations
           [i.append(j) for i,j in zip(previous_answers,all_outputs_delib)]
           with open(cache_path, "wb") as cache_file:
               pickle.dump(previous_answers, cache_file)
           print(f"Cache saved for step {step} at {cache_path}")
       else:
           previous_answers = pickle.load(open(cache_path,"rb"))
-          #if model_short_name == "mixtral":
-          #    break
-    #all_outputs_delib = list(itertools.chain.from_iterable(all_outputs_delib))
-    #pred = [extract_label(i) for i in all_outputs_delib]
-    #labels = ["NTA" if i==0 else "YTA" for i in df["label"]]
-    #print(classification_report(labels,pred,labels=["NTA","YTA"],digits=4))
-    
-    #pickle.dump([new_data,previous_answers,all_outputs_delib],open(cache_path,"wb"))
-# llama 13 b took 15 minutes for 1300 examples
-# # 1 h 11m for complete
-
