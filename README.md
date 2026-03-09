@@ -10,6 +10,8 @@ You can paste the file `evaluate_rel_with_score.csv` into the `./data/` director
 
 Please use the data with care. We have retained gender and age information in the posts, as these are important for understanding social acceptance in models. No names or other personal identifying information were found in the dataset.
 
+However, if you wish to access the complete raw data between 01-01-2021 to 10-01-2021, please refer to this [README](https://github.com/nvshrao/social_gaze/tree/main/data/complete_raw_data).
+
 ## Usage
 
 For Vanilla prompting:  
