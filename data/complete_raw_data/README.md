@@ -17,6 +17,11 @@ To protect user privacy, **comment author usernames are not included in the rele
 If your research requires access to the `comment_authors` column, please **contact me at anveshrao1@gmail.com with a clear explanation of your use case** .
 
 ---
+## Link to Dataset
+
+The complete raw data (without comment_authors) is posted [here](https://drive.google.com/drive/folders/1DpAan9JFKxcyXMG_uUqHoF9jxdeln5uG?usp=sharing)
+
+---
 
 ## Dataset Structure
 
