@@ -5,7 +5,7 @@ This repository contains the code and data for our paper:
 
 ## Data
 
-Please find the data [here](https://drive.google.com/drive/folders/1Dx7girZJOByU7GtoCvrZKCknK5b8U0V2?usp=sharing).  
+Please find the data used in our paper [here](https://drive.google.com/drive/folders/1Dx7girZJOByU7GtoCvrZKCknK5b8U0V2?usp=sharing).  
 You can paste the file `evaluate_rel_with_score.csv` into the `./data/` directory.
 
 Please use the data with care. We have retained gender and age information in the posts, as these are important for understanding social acceptance in models. No names or other personal identifying information were found in the dataset.
