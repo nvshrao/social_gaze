@@ -22,6 +22,19 @@ If your research requires access to the `comment_authors` column, please **conta
 The complete raw data (without comment_authors) is posted [here](https://drive.google.com/drive/folders/1DpAan9JFKxcyXMG_uUqHoF9jxdeln5uG?usp=sharing)
 
 ---
+## Usage
+
+The dataset is stored in JSON format and can be easily loaded using pandas.
+
+```python
+import pandas as pd
+df = pd.read_json("aita_complete_dataset.json")
+df["utc"] = pd.to_datetime(df["utc"], unit="ms")
+```
+
+This loads the dataset as a pandas DataFrame where each row corresponds to a single Reddit post and its associated comments.
+
+---
 
 ## Dataset Structure
 
