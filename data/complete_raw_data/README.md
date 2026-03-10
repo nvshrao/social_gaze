@@ -175,18 +175,6 @@ This dataset may be useful for research in:
 
 ---
 
-## Disclaimer
-
-The dataset contains **user-generated content from Reddit** and may include:
-
-* offensive language
-* sensitive personal situations
-* strong opinions
-
-Researchers should handle the data responsibly.
-
----
-
 ## Contact
 
 For questions, dataset issues, or requests for restricted fields (e.g., comment authors), please contact me!
