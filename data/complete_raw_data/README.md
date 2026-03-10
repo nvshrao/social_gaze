@@ -2,19 +2,21 @@
 
 ## Overview
 
-This dataset contains raw posts and comments collected from the subreddit **r/AmItheAsshole (AITA)** between **January 1, 2021 and October 21, 2021**.
+This dataset contains raw posts and comments collected from the subreddit **r/AmItheAsshole (AITA)** between **January 1, 2021 and October 21, 2021**. If you are looking for specifically the subset of this data used in our experiments, please refer [here](https://github.com/nvshrao/social_gaze/tree/main/data).
 
 On r/AITA, users post descriptions of interpersonal conflicts and ask the community to judge whether they behaved appropriately. Other users comment on the post and provide a **verdict**, which other readers can upvote or downvote. The verdict receiving the most community support typically becomes the **majority verdict** for the post.
 
-This dataset aggregates posts, comments, verdict labels, and vote statistics from that period.
+This dataset aggregates posts, comments, verdict labels, and vote stats from that period.
 
----
+### Possible Verdicts
 
-## Privacy Notice
-
-To protect user privacy, **comment author usernames are not included in the released dataset**.
-
-If your research requires access to the `comment_authors` column, please **contact me at anveshrao1@gmail.com with a clear explanation of your use case** .
+| Verdict  | Meaning                |
+| -------- | ---------------------- |
+| **YTA**  | You're the Asshole     |
+| **NTA**  | Not the Asshole        |
+| **ESH**  | Everyone Sucks Here    |
+| **NAH**  | No Assholes Here       |
+| **INFO** | Not Enough Information |
 
 ---
 ## Link to Dataset
@@ -36,11 +38,7 @@ This loads the dataset as a pandas DataFrame where each row corresponds to a sin
 
 ---
 
-## Dataset Structure
-
-Each row in the dataset corresponds to **one Reddit post** and its associated comments.
-
-### Files Included
+## Files
 
 Two versions of the dataset are provided:
 
@@ -48,35 +46,13 @@ Two versions of the dataset are provided:
 Contains all collected posts during the time range.
 
 **2. `AITA_filtered` (~1,200 posts)**
-A subset of posts where **community disagreement is high**.
-These posts were later highlighted on **r/AITA_filtered**, a subreddit that showcases posts where the verdict is controversial or debated.
-
-In most filtered cases, the **majority verdict receives less than ~70% of total upvotes**, indicating meaningful disagreement among commenters.
-
-Both files have the **same column schema**.
-
----
-
-## How AITA Works
-
-1. A user creates a post describing a situation.
-2. Other users comment and provide a **verdict**.
-3. Each comment receives **upvotes or downvotes** from other readers.
-4. The verdict associated with the **highest total upvotes** across comments becomes the **majority verdict**.
-
-### Possible Verdicts
-
-| Verdict  | Meaning                |
-| -------- | ---------------------- |
-| **YTA**  | You're the Asshole     |
-| **NTA**  | Not the Asshole        |
-| **ESH**  | Everyone Sucks Here    |
-| **NAH**  | No Assholes Here       |
-| **INFO** | Not Enough Information |
+A subset of posts where community disagreement is high. These posts were later highlighted on r/AITA_filtered. In most filtered cases, the majority verdict receives less than ~70% of total upvotes. Both files have the same column schema. For our experiments, we remove AITA_filtered IDs from AITA_complete to exclude posts with low consensus.
 
 ---
 
 ## Column Descriptions
+
+To protect user privacy, comment author usernames are not included in the released dataset. If your research requires access to the `comment_authors` column, please contact me at anveshrao1@gmail.com with an explanation of your use case!
 
 ### `post_id`
 
@@ -120,7 +96,7 @@ The full text body of the Reddit post.
 
 ### `majority_verdict`
 
-The verdict whose **comments collectively receive the most upvotes**.
+The verdict whose comments collectively receive the most upvotes.
 
 This represents the **community's overall judgment**.
 
